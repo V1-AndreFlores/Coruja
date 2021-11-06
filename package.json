@@ -25,10 +25,23 @@
     "react-native-web": "~0.13.12",
     "styled-components": "^5.3.1",
     "react-native-webview": "11.6.2",
-    "@react-native-async-storage/async-storage": "~1.15.0"
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "babel-eslint": "^10.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
+    "react-native-dotenv": "^3.2.0",
+    "expo-ads-admob": "~10.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0"
   },
   "private": true
 }

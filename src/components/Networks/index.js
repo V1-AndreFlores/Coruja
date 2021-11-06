@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Name } from './styles';
 
-function Genres({ data }) {
+function Networks({ data }) {
   return (
     <Container>
       <Name>{data.name}</Name>
@@ -9,4 +9,4 @@ function Genres({ data }) {
   );
 }
 
-export default Genres;
+export default Networks;
