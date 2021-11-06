@@ -134,6 +134,7 @@ function Movies() {
           renderItem={({ item }) => (
             <SliderItem
               data={item}
+              numColumns={2}
               navigatePage={() => navigateDetailPage(item)}
             />
           )}
