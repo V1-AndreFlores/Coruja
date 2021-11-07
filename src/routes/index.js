@@ -10,6 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import logo from '../assets/logo.png';
 import Series from '../pages/Series';
 import Favorites from '../pages/Favorites';
+import About from '../pages/About';
 import StackRoutes from './stackRoutes';
 
 function Routes() {
@@ -83,6 +84,20 @@ const DrawerNavigator = () => (
         drawerIcon: ({ focused, size, color }) => (
           <MaterialCommunityIcons
             name={focused ? 'heart-multiple' : 'heart-multiple-outline'}
+            size={size}
+            color={color}
+          />
+        ),
+      }}
+    />
+    <Drawer.Screen
+      name="About"
+      component={About}
+      options={{
+        title: 'Sobre',
+        drawerIcon: ({ focused, size, color }) => (
+          <MaterialCommunityIcons
+            name={focused ? 'comment-question' : 'comment-question-outline'}
             size={size}
             color={color}
           />

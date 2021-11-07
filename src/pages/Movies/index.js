@@ -140,6 +140,7 @@ function Movies() {
 
 const styles = StyleSheet.create({
   containerItem: {
+    marginLeft: 10,
     alignItems: 'center',
   },
 });

@@ -140,6 +140,7 @@ function Series() {
 
 const styles = StyleSheet.create({
   containerItem: {
+    marginLeft: 10,
     alignItems: 'center',
   },
 });
