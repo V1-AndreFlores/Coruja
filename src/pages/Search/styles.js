@@ -6,3 +6,8 @@ export const Container = styled.View`
 `;
 
 export const ListMovies = styled.FlatList``;
+
+export const ContainerBannerAdMob = styled.View`
+  align-items: center;
+  margin-top: auto;
+`;

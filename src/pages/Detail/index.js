@@ -3,6 +3,8 @@ import { ScrollView, Modal } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Stars from 'react-native-stars';
+import { AdMobBanner } from 'expo-ads-admob';
+import { ADMOB_ID } from '@env';
 import api, { key } from '../../services/api';
 import {
   Container,
@@ -16,6 +18,7 @@ import {
   SubTitle,
   ListNetworks,
   Description,
+  ContainerBannerAdMob,
 } from './styles';
 import Genres from '../../components/Genres';
 import Networks from '../../components/Networks';
@@ -158,6 +161,16 @@ function Detail() {
           closeModal={() => setOpenLink(false)}
         />
       </Modal>
+
+      <ContainerBannerAdMob>
+        <AdMobBanner
+          bannerSize="fullBanner"
+          adUnitID={ADMOB_ID} // Test ID, Replace with your-admob-unit-id
+          setTestDeviceIDAsync // true or false
+          servePersonalizedAds // true or false
+          onDidFailToReceiveAdWithError={(err) => console.log(err)}
+        />
+      </ContainerBannerAdMob>
     </Container>
   );
 }

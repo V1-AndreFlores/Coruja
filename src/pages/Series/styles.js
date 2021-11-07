@@ -31,3 +31,8 @@ export const SearchButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
 `;
+
+export const ContainerBannerAdMob = styled.View`
+  align-items: center;
+  margin-top: auto;
+`;

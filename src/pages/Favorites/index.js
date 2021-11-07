@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { Container, ListMovies } from './styles';
+import { AdMobBanner } from 'expo-ads-admob';
+import { ADMOB_ID } from '@env';
+import { Container, ListMovies, ContainerBannerAdMob } from './styles';
 import Header from '../../components/Header';
 
 import { getMoviesSave, deleteMovie } from '../../utils/storage';
@@ -58,6 +60,16 @@ function Favorites() {
           />
         )}
       />
+
+      <ContainerBannerAdMob>
+        <AdMobBanner
+          bannerSize="fullBanner"
+          adUnitID={ADMOB_ID} // Test ID, Replace with your-admob-unit-id
+          setTestDeviceIDAsync // true or false
+          servePersonalizedAds // true or false
+          onDidFailToReceiveAdWithError={(err) => console.log(err)}
+        />
+      </ContainerBannerAdMob>
     </Container>
   );
 }

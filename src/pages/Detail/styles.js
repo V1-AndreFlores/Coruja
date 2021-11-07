@@ -82,3 +82,8 @@ export const Description = styled.Text`
   line-height: 20px;
   text-align: justify;
 `;
+
+export const ContainerBannerAdMob = styled.View`
+  align-items: center;
+  margin-top: auto;
+`;

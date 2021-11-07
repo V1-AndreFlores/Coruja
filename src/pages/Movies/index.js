@@ -9,7 +9,15 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-import { Container, SearchContainer, Input, SearchButton } from './styles';
+import { AdMobBanner } from 'expo-ads-admob';
+import { ADMOB_ID } from '@env';
+import {
+  Container,
+  SearchContainer,
+  Input,
+  SearchButton,
+  ContainerBannerAdMob,
+} from './styles';
 import Header from '../../components/Header';
 import SliderItem from '../../components/SliderItem';
 import api, { key } from '../../services/api';
@@ -116,6 +124,16 @@ function Movies() {
           />
         </View>
       </ScrollView>
+
+      <ContainerBannerAdMob>
+        <AdMobBanner
+          bannerSize="fullBanner"
+          adUnitID={ADMOB_ID} // Test ID, Replace with your-admob-unit-id
+          setTestDeviceIDAsync // true or false
+          servePersonalizedAds // true or false
+          onDidFailToReceiveAdWithError={(err) => console.log(err)}
+        />
+      </ContainerBannerAdMob>
     </Container>
   );
 }
