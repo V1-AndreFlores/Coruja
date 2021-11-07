@@ -5,13 +5,14 @@ export const Container = styled.View`
   background-color: #151515;
 `;
 
-export const Title = styled.Text`
-  color: #fff;
-  font-size: 20px;
-  font-weight: bold;
-  padding: 8px 14px;
-  margin-top: 8px;
-  margin-bottom: 15px;
+export const ContainerLogo = styled.View`
+  margin-bottom: 30px;
+  align-items: center;
+`;
+
+export const Logo = styled.Image`
+  width: 300px;
+  height: 300px;
 `;
 
 export const Description = styled.Text`

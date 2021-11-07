@@ -116,6 +116,7 @@ function Series() {
             renderItem={({ item }) => (
               <SliderItem
                 type="tv"
+                favorite={false}
                 data={item}
                 navigatePage={() => navigateDetailPage(item)}
               />

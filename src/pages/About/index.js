@@ -1,14 +1,23 @@
 import React from 'react';
 import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
-import { Container, Title, Description, ContainerBannerAdMob } from './styles';
+import {
+  Container,
+  ContainerLogo,
+  Logo,
+  Description,
+  ContainerBannerAdMob,
+} from './styles';
 import Header from '../../components/Header';
+import logo from '../../assets/logo.png';
 
 function Series() {
   return (
     <Container>
       <Header title="Sobre" />
-      <Title>Coruja - Onde assistir filmes e séries</Title>
+      <ContainerLogo>
+        <Logo source={logo} style={{ width: 80, height: 119 }} />
+      </ContainerLogo>
       <Description>
         Com o crescimento dos streamings de filmes e séries no Brasil e também
         com seus conteúdos exclusivos, a dificuldade de encontrar o que queremos

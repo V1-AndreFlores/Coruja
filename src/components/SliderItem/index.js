@@ -1,8 +1,15 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { Container, BannerItem, Title, RateContainer, Rate } from './styles';
+import {
+  Container,
+  BannerItem,
+  Title,
+  RateContainer,
+  Rate,
+  Type,
+} from './styles';
 
-function SliderItem({ type, data, navigatePage }) {
+function SliderItem({ type, favorite, data, navigatePage }) {
   if (data.empty === true) {
     return null;
   }
@@ -20,10 +27,14 @@ function SliderItem({ type, data, navigatePage }) {
         <Title numberOfLines={3}>{data?.title}</Title>
       )}
 
-      <RateContainer>
-        <Ionicons name="md-star" size={12} color="#E7A74E" />
-        <Rate>{data.vote_average}/10</Rate>
-      </RateContainer>
+      {favorite ? (
+        <Type>{type === 'tv' ? 'Série' : 'Filme'}</Type>
+      ) : (
+        <RateContainer>
+          <Ionicons name="md-star" size={12} color="#E7A74E" />
+          <Rate>{data.vote_average}/10</Rate>
+        </RateContainer>
+      )}
     </Container>
   );
 }

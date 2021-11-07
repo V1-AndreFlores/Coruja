@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Text } from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -26,11 +26,84 @@ const Drawer = createDrawerNavigator();
 const CustomDrawer = (props) => (
   <View style={{ flex: 1 }}>
     <DrawerContentScrollView {...props}>
-      <View style={{ alignItems: 'center', paddingBottom: 20 }}>
-        <Image source={logo} style={{ width: 77, height: 100 }} />
+      <View
+        style={{
+          alignItems: 'center',
+          marginBottom: 20,
+        }}
+      >
+        <Image source={logo} style={{ width: 80, height: 119 }} />
       </View>
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
+    <View
+      style={{
+        padding: 10,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        backgroundColor: '#151515',
+      }}
+    >
+      <Text
+        style={{
+          color: '#fff',
+          fontWeight: 'bold',
+          marginBottom: 10,
+          fontSize: 16,
+        }}
+      >
+        Favoritados
+      </Text>
+
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              color: '#fff',
+              justifyContent: 'flex-start',
+              fontSize: 20,
+            }}
+          >
+            0
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              color: '#fff',
+              justifyContent: 'flex-end',
+              fontSize: 20,
+            }}
+          >
+            0
+          </Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              color: '#fff',
+              justifyContent: 'flex-start',
+            }}
+          >
+            Filmes
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              color: '#fff',
+              justifyContent: 'flex-end',
+            }}
+          >
+            Séries
+          </Text>
+        </View>
+      </View>
+    </View>
   </View>
 );
 

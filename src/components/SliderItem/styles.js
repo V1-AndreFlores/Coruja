@@ -37,3 +37,12 @@ export const Rate = styled.Text`
   color: #fff;
   font-size: 12px;
 `;
+
+export const Type = styled.Text`
+  color: #fff;
+  font-size: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  margin-top: auto;
+`;

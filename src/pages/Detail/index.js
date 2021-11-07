@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Modal } from 'react-native';
+import { ScrollView, ActivityIndicator } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Stars from 'react-native-stars';
@@ -22,7 +22,6 @@ import {
 } from './styles';
 import Genres from '../../components/Genres';
 import Networks from '../../components/Networks';
-import ModalLink from '../../components/ModalLink';
 import { saveMovie, hasMovie, deleteMovie } from '../../utils/storage';
 
 function Detail() {
@@ -30,8 +29,8 @@ function Detail() {
   const route = useRoute();
 
   const [movie, setMovie] = useState({});
-  const [openLink, setOpenLink] = useState(false);
   const [favorite, setFavorite] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isActive = true;
@@ -53,6 +52,8 @@ function Detail() {
 
         const isFavorite = await hasMovie(response.data);
         setFavorite(isFavorite);
+
+        setLoading(false);
       }
     }
 
@@ -70,9 +71,17 @@ function Detail() {
       await deleteMovie(movie.id);
       setFavorite(false);
     } else {
-      await saveMovie('@primereact', movie);
+      await saveMovie('@coruja', movie);
       setFavorite(true);
     }
+  }
+
+  if (loading) {
+    return (
+      <Container>
+        <ActivityIndicator size="large" color="#fff" />
+      </Container>
+    );
   }
 
   return (
@@ -104,63 +113,57 @@ function Detail() {
         <Title numberOfLines={2}>{movie.title}</Title>
       )}
 
-      <ContentArea>
-        <Stars
-          default={movie.vote_average}
-          count={10}
-          half
-          starSize={20}
-          fullStar={<Ionicons name="md-star" size={24} color="#E7A74E" />}
-          emptyStar={
-            <Ionicons name="md-star-outline" size={24} color="#E7A74E" />
-          }
-          halfStar={<Ionicons name="md-star-half" size={24} color="#E7A74E" />}
-          disable
-        />
-        <Rate>{movie.vote_average}/10</Rate>
-      </ContentArea>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ContentArea>
+          <Stars
+            default={movie.vote_average}
+            count={10}
+            half
+            starSize={20}
+            fullStar={<Ionicons name="md-star" size={24} color="#E7A74E" />}
+            emptyStar={
+              <Ionicons name="md-star-outline" size={24} color="#E7A74E" />
+            }
+            halfStar={
+              <Ionicons name="md-star-half" size={24} color="#E7A74E" />
+            }
+            disable
+          />
+          <Rate>{movie.vote_average}/10</Rate>
+        </ContentArea>
 
-      <ListGenres
-        data={movie?.genres}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Genres data={item} />}
-      />
-
-      {route.params?.type === 'tv' ? (
-        <SubTitle>
-          {movie?.number_of_seasons} Temporada
-          {movie?.number_of_seasons > 1 ? 's' : ''}
-        </SubTitle>
-      ) : null}
-
-      {route.params?.type === 'tv' ? (
-        <ListNetworks
-          data={movie?.networks}
+        <ListGenres
+          data={movie?.genres}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => <Networks data={item} />}
+          renderItem={({ item }) => <Genres data={item} />}
         />
-      ) : null}
 
-      <Title>Descrição</Title>
-      <ScrollView showsVerticalScrollIndicator={false}>
+        {route.params?.type === 'tv' ? (
+          <SubTitle>
+            {movie?.number_of_seasons} Temporada
+            {movie?.number_of_seasons > 1 ? 's' : ''}
+          </SubTitle>
+        ) : null}
+
+        {route.params?.type === 'tv' ? (
+          <ListNetworks
+            data={movie?.networks}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => <Networks data={item} />}
+          />
+        ) : null}
+
+        <Title>Descrição</Title>
         <Description>
           {movie?.overview?.length > 0
             ? movie?.overview
             : 'Nenhuma descrição disponível neste momento.'}
         </Description>
       </ScrollView>
-
-      <Modal animationType="slide" transparent visible={openLink}>
-        <ModalLink
-          link={movie?.homepage}
-          title={movie?.title}
-          closeModal={() => setOpenLink(false)}
-        />
-      </Modal>
 
       <ContainerBannerAdMob>
         <AdMobBanner

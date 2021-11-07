@@ -116,6 +116,7 @@ function Movies() {
             renderItem={({ item }) => (
               <SliderItem
                 type="movie"
+                favorite={false}
                 data={item}
                 navigatePage={() => navigateDetailPage(item)}
               />

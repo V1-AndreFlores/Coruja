@@ -27,18 +27,18 @@ export async function saveMovie(key, newMovie) {
 
 // Deletar um Filme específico
 export async function deleteMovie(id) {
-  const moviesStored = await getMoviesSave('@primereact');
+  const moviesStored = await getMoviesSave('@coruja');
 
   const myMovies = moviesStored.filter((item) => item.id !== id);
 
-  await AsyncStorage.setItem('@primereact', JSON.stringify(myMovies));
+  await AsyncStorage.setItem('@coruja', JSON.stringify(myMovies));
 
   return myMovies;
 }
 
 // Filtrar um Filme salvo
 export async function hasMovie(movie) {
-  const moviesStored = await getMoviesSave('@primereact');
+  const moviesStored = await getMoviesSave('@coruja');
 
   const hasMovie = moviesStored.find((item) => item.id === movie.id);
 
