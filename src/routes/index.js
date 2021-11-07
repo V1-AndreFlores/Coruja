@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import logo from '../assets/logo.png';
 import Series from '../pages/Series';
@@ -24,12 +23,14 @@ function Routes() {
 const Drawer = createDrawerNavigator();
 
 const CustomDrawer = (props) => (
-  <DrawerContentScrollView {...props}>
-    <View style={{ alignItems: 'center', paddingBottom: 20 }}>
-      <Image source={logo} style={{ width: 77, height: 100 }} />
-    </View>
-    <DrawerItemList {...props} />
-  </DrawerContentScrollView>
+  <View style={{ flex: 1 }}>
+    <DrawerContentScrollView {...props}>
+      <View style={{ alignItems: 'center', paddingBottom: 20 }}>
+        <Image source={logo} style={{ width: 77, height: 100 }} />
+      </View>
+      <DrawerItemList {...props} />
+    </DrawerContentScrollView>
+  </View>
 );
 
 const DrawerNavigator = () => (

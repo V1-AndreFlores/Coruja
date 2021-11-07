@@ -37,7 +37,10 @@ function Favorites() {
   }
 
   function navigateDetailsPage(item) {
-    navigation.navigate('Detail', { id: item.id });
+    navigation.navigate('Detail', {
+      type: item?.title != null ? 'movie' : 'tv',
+      id: item.id,
+    });
   }
 
   return (

@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.TouchableOpacity`
-  padding-top: 16px;
-  padding-bottom: 16px;
-  padding-right: 16px;
-  width: 126px;
-  height: 180px;
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 105px;
+  height: 255px;
+  background-color: #333333;
 `;
 
 export const BannerItem = styled.Image`
@@ -17,11 +17,19 @@ export const Title = styled.Text`
   color: #fff;
   font-size: 14px;
   padding-top: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #333333;
 `;
 
 export const RateContainer = styled.View`
   flex-direction: row;
   align-items: center;
+  background-color: #333333;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  margin-top: auto;
 `;
 
 export const Rate = styled.Text`

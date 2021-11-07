@@ -31,8 +31,3 @@ export const SearchButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
 `;
-
-export const SliderSerie = styled.FlatList`
-  height: auto;
-  padding: 0 14px;
-`;

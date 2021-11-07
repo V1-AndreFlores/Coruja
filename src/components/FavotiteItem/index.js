@@ -13,7 +13,7 @@ import {
 function FavoriteItem({ data, deleteMovie, navigatePage }) {
   return (
     <Container>
-      <Title size={22}>{data.title}</Title>
+      <Title size={22}>{data?.title ?? data?.name}</Title>
       <RateContainer>
         <Ionicons name="md-star" size={12} color="#E7A74E" />
         <Rate>{data.vote_average}/10</Rate>

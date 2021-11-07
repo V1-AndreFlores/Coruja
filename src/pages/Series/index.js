@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  View,
+  FlatList,
+} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import {
-  Container,
-  SearchContainer,
-  Input,
-  SearchButton,
-  SliderSerie,
-} from './styles';
+
+import { Container, SearchContainer, Input, SearchButton } from './styles';
 import Header from '../../components/Header';
-import SliderItemx from '../../components/SliderItemx';
+import SliderItem from '../../components/SliderItem';
 import api, { key } from '../../services/api';
 
 function Series() {
@@ -66,6 +67,23 @@ function Series() {
     );
   }
 
+  const formatData = (data, numColumns) => {
+    const numberOfFullRows = Math.floor(data.length / numColumns);
+
+    let mumberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+    while (
+      mumberOfElementsLastRow !== numColumns &&
+      mumberOfElementsLastRow !== 0
+    ) {
+      data.push({ id: `blank-${mumberOfElementsLastRow}`, empty: true });
+      mumberOfElementsLastRow += 1;
+    }
+
+    return data;
+  };
+
+  const numColumns = 3;
+
   return (
     <Container>
       <Header title="Séries" />
@@ -80,21 +98,32 @@ function Series() {
           <Feather name="corner-down-left" size={30} color="#fff" />
         </SearchButton>
       </SearchContainer>
-      <SliderSerie
-        vertical
-        showsVerticalScrollIndicator={false}
-        data={popularSeries}
-        renderItem={({ item }) => (
-          <SliderItemx
-            type="tv"
-            data={item}
-            navigatePage={() => navigateDetailPage(item)}
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.containerItem}>
+          <FlatList
+            data={formatData(popularSeries, numColumns)}
+            numColumns={numColumns}
+            // renderItem={({ item }) => renderItem(item)}
+            renderItem={({ item }) => (
+              <SliderItem
+                type="tv"
+                data={item}
+                navigatePage={() => navigateDetailPage(item)}
+              />
+            )}
+            keyExtractor={(item) => String(item.id)}
           />
-        )}
-        keyExtractor={(item) => String(item.id)}
-      />
+        </View>
+      </ScrollView>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  containerItem: {
+    alignItems: 'center',
+  },
+});
 
 export default Series;

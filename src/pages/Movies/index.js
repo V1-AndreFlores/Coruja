@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, ActivityIndicator } from 'react-native';
-
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  View,
+  FlatList,
+} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import {
-  Container,
-  SearchContainer,
-  Input,
-  SearchButton,
-  Title,
-  BannerButton,
-  Banner,
-  SliderMovie,
-} from './styles';
 
+import { Container, SearchContainer, Input, SearchButton } from './styles';
 import Header from '../../components/Header';
 import SliderItem from '../../components/SliderItem';
-
 import api, { key } from '../../services/api';
-import { getListMovies, randomBanner } from '../../utils/movies';
 
 function Movies() {
-  const [nowMovies, setNowMovies] = useState([]);
-  const [popularMovies, setPopularMovies] = useState([]);
-  const [topMovies, setTopMovies] = useState([]);
-  const [bannerMovie, setBannerMovie] = useState({});
+  const [popularSeries, setPopularSeries] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -33,23 +24,9 @@ function Movies() {
     let isActive = true;
     const ac = new AbortController();
 
-    async function getMovies() {
-      const [nowData, popularData, topData] = await Promise.all([
-        api.get('/movie/now_playing', {
-          params: {
-            api_key: key,
-            language: 'pt-BR',
-            page: 1,
-          },
-        }),
+    async function getSeries() {
+      const [popularData] = await Promise.all([
         api.get('/movie/popular', {
-          params: {
-            api_key: key,
-            language: 'pt-BR',
-            page: 1,
-          },
-        }),
-        api.get('/movie/top_rated', {
           params: {
             api_key: key,
             language: 'pt-BR',
@@ -59,22 +36,12 @@ function Movies() {
       ]);
 
       if (isActive) {
-        const nowList = getListMovies(10, nowData.data.results);
-        const popularList = getListMovies(5, popularData.data.results);
-        const topList = getListMovies(5, topData.data.results);
-
-        setBannerMovie(
-          nowData.data.results[randomBanner(nowData.data.results)],
-        );
-        setNowMovies(nowList);
-        setPopularMovies(popularList);
-        setTopMovies(topList);
-
+        setPopularSeries(popularData.data.results);
         setLoading(false);
       }
     }
 
-    getMovies();
+    getSeries();
 
     return () => {
       isActive = false;
@@ -83,12 +50,12 @@ function Movies() {
   }, []);
 
   function navigateDetailPage(item) {
-    navigation.navigate('Detail', { id: item.id });
+    navigation.navigate('Detail', { type: 'movie', id: item.id });
   }
 
-  function handleSearchMovie() {
+  function handleSearch() {
     if (input === '') return;
-    navigation.navigate('Search', { name: input });
+    navigation.navigate('Search', { type: 'movie', name: input });
     setInput('');
   }
 
@@ -100,6 +67,23 @@ function Movies() {
     );
   }
 
+  const formatData = (data, numColumns) => {
+    const numberOfFullRows = Math.floor(data.length / numColumns);
+
+    let mumberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+    while (
+      mumberOfElementsLastRow !== numColumns &&
+      mumberOfElementsLastRow !== 0
+    ) {
+      data.push({ id: `blank-${mumberOfElementsLastRow}`, empty: true });
+      mumberOfElementsLastRow += 1;
+    }
+
+    return data;
+  };
+
+  const numColumns = 3;
+
   return (
     <Container>
       <Header title="Filmes" />
@@ -110,67 +94,36 @@ function Movies() {
           value={input}
           onChangeText={(text) => setInput(text)}
         />
-        <SearchButton onPress={handleSearchMovie}>
+        <SearchButton onPress={handleSearch}>
           <Feather name="corner-down-left" size={30} color="#fff" />
         </SearchButton>
       </SearchContainer>
+
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Title>Em cartaz</Title>
-        <BannerButton
-          activeOpacity={0.9}
-          onPress={() => navigateDetailPage(bannerMovie)}
-        >
-          <Banner
-            resizeMethod="resize"
-            source={{
-              uri: `https://image.tmdb.org/t/p/original/${bannerMovie.poster_path}`,
-            }}
+        <View style={styles.containerItem}>
+          <FlatList
+            data={formatData(popularSeries, numColumns)}
+            numColumns={numColumns}
+            // renderItem={({ item }) => renderItem(item)}
+            renderItem={({ item }) => (
+              <SliderItem
+                type="movie"
+                data={item}
+                navigatePage={() => navigateDetailPage(item)}
+              />
+            )}
+            keyExtractor={(item) => String(item.id)}
           />
-        </BannerButton>
-        <SliderMovie
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={nowMovies}
-          renderItem={({ item }) => (
-            <SliderItem
-              data={item}
-              numColumns={2}
-              navigatePage={() => navigateDetailPage(item)}
-            />
-          )}
-          keyExtractor={(item) => String(item.id)}
-        />
-
-        <Title>Populares</Title>
-        <SliderMovie
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={popularMovies}
-          renderItem={({ item }) => (
-            <SliderItem
-              data={item}
-              navigatePage={() => navigateDetailPage(item)}
-            />
-          )}
-          keyExtractor={(item) => String(item.id)}
-        />
-
-        <Title>Mais votados</Title>
-        <SliderMovie
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={topMovies}
-          renderItem={({ item }) => (
-            <SliderItem
-              data={item}
-              navigatePage={() => navigateDetailPage(item)}
-            />
-          )}
-          keyExtractor={(item) => String(item.id)}
-        />
+        </View>
       </ScrollView>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  containerItem: {
+    alignItems: 'center',
+  },
+});
 
 export default Movies;
