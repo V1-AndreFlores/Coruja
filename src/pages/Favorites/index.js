@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  View,
-  FlatList,
-} from 'react-native';
+import { ActivityIndicator, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
-import { Container, ContainerBannerAdMob } from './styles';
+import { Container, ContainerList, ContainerBannerAdMob } from './styles';
 import Header from '../../components/Header';
 import SliderItem from '../../components/SliderItem';
 
@@ -80,24 +74,21 @@ function Favorites() {
     <Container>
       <Header title="Favoritos" />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.containerItem}>
-          <FlatList
-            data={formatData(favorites, numColumns)}
-            numColumns={numColumns}
-            // renderItem={({ item }) => renderItem(item)}
-            renderItem={({ item }) => (
-              <SliderItem
-                type={item?.title != null ? 'movie' : 'tv'}
-                favorite
-                data={item}
-                navigatePage={() => navigateDetailPage(item)}
-              />
-            )}
-            keyExtractor={(item) => String(item.id)}
-          />
-        </View>
-      </ScrollView>
+      <ContainerList>
+        <FlatList
+          data={formatData(favorites, numColumns)}
+          numColumns={numColumns}
+          renderItem={({ item }) => (
+            <SliderItem
+              type={item?.title != null ? 'movie' : 'tv'}
+              favorite
+              data={item}
+              navigatePage={() => navigateDetailPage(item)}
+            />
+          )}
+          keyExtractor={(item) => String(item.id)}
+        />
+      </ContainerList>
 
       <ContainerBannerAdMob>
         <AdMobBanner
@@ -111,12 +102,5 @@ function Favorites() {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  containerItem: {
-    marginLeft: 10,
-    alignItems: 'center',
-  },
-});
 
 export default Favorites;

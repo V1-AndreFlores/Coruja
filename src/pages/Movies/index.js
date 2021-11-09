@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  View,
-  FlatList,
-} from 'react-native';
+import { ActivityIndicator, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -13,9 +7,10 @@ import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
 import {
   Container,
-  SearchContainer,
+  ContainerSearch,
   Input,
-  SearchButton,
+  ButtonSearch,
+  ContainerList,
   ContainerBannerAdMob,
 } from './styles';
 import Header from '../../components/Header';
@@ -95,36 +90,35 @@ function Movies() {
   return (
     <Container>
       <Header title="Filmes" />
-      <SearchContainer>
+      <ContainerSearch>
         <Input
           placeholder="Exemplo Free Guy"
           placeholderTextColor="#fff"
           value={input}
           onChangeText={(text) => setInput(text)}
         />
-        <SearchButton onPress={handleSearch}>
+        <ButtonSearch onPress={handleSearch}>
           <Feather name="corner-down-left" size={30} color="#fff" />
-        </SearchButton>
-      </SearchContainer>
+        </ButtonSearch>
+      </ContainerSearch>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.containerItem}>
-          <FlatList
-            data={formatData(popularSeries, numColumns)}
-            numColumns={numColumns}
-            // renderItem={({ item }) => renderItem(item)}
-            renderItem={({ item }) => (
-              <SliderItem
-                type="movie"
-                favorite={false}
-                data={item}
-                navigatePage={() => navigateDetailPage(item)}
-              />
-            )}
-            keyExtractor={(item) => String(item.id)}
-          />
-        </View>
-      </ScrollView>
+      <ContainerList>
+        <FlatList
+          LisHeaderComponent="TESTE Header"
+          data={formatData(popularSeries, numColumns)}
+          numColumns={numColumns}
+          // renderItem={({ item }) => renderItem(item)}
+          renderItem={({ item }) => (
+            <SliderItem
+              type="movie"
+              favorite={false}
+              data={item}
+              navigatePage={() => navigateDetailPage(item)}
+            />
+          )}
+          keyExtractor={(item) => String(item.id)}
+        />
+      </ContainerList>
 
       <ContainerBannerAdMob>
         <AdMobBanner
@@ -138,12 +132,5 @@ function Movies() {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  containerItem: {
-    marginLeft: 10,
-    alignItems: 'center',
-  },
-});
 
 export default Movies;

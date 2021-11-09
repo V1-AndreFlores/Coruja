@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// AsyncStorage.clear();
+
 // Buscar os Filmes salvos
 export async function getMoviesSave(key) {
   const myMovies = await AsyncStorage.getItem(key);
@@ -47,4 +49,28 @@ export async function hasMovie(movie) {
   }
 
   return false;
+}
+
+// Buscar o total Favoritos salvos
+export async function getFavoritesSave(key) {
+  const myFavorites = await AsyncStorage.getItem(key);
+
+  // console.log(
+  //   `${key}: (${
+  //     myFavorites === 'NaN' || myFavorites === null ? '0' : myFavorites
+  //   })`,
+  // );
+
+  return myFavorites === 'NaN' || myFavorites === null ? '0' : myFavorites;
+}
+
+// Salvar o total Favoritos
+export async function saveFavorites(key, number) {
+  const favoritesSaveStored = await getFavoritesSave(key);
+
+  const total = parseInt(favoritesSaveStored) + parseInt(number);
+
+  // console.log(`${key}: (${total})`);
+
+  await AsyncStorage.setItem(key, String(total < 0 ? 0 : total));
 }

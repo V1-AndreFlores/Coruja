@@ -22,7 +22,12 @@ import {
 } from './styles';
 import Genres from '../../components/Genres';
 import Networks from '../../components/Networks';
-import { saveMovie, hasMovie, deleteMovie } from '../../utils/storage';
+import {
+  saveMovie,
+  hasMovie,
+  deleteMovie,
+  saveFavorites,
+} from '../../utils/storage';
 
 function Detail() {
   const navigation = useNavigation();
@@ -67,11 +72,16 @@ function Detail() {
   }, []);
 
   async function handleFavoriteMovie(movie) {
+    const key =
+      route.params?.type === 'tv' ? 'TotalSavedSeries' : 'TotalSavedMovies';
+
     if (favorite) {
       await deleteMovie(movie.id);
+      await saveFavorites(key, -1);
       setFavorite(false);
     } else {
       await saveMovie('@coruja', movie);
+      await saveFavorites(key, 1);
       setFavorite(true);
     }
   }

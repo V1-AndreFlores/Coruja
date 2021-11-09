@@ -13,6 +13,8 @@ import Favorites from '../pages/Favorites';
 import About from '../pages/About';
 import StackRoutes from './stackRoutes';
 
+import { getFavoritesSave } from '../utils/storage';
+
 function Routes() {
   return (
     <NavigationContainer independent>
@@ -20,6 +22,22 @@ function Routes() {
     </NavigationContainer>
   );
 }
+
+let totalSavedMovies = '0';
+let totalSavedSeries = '0';
+
+async function getTotalSavedMovies() {
+  const result = await getFavoritesSave('TotalSavedMovies');
+  totalSavedMovies = result;
+}
+
+async function getTotalSavedSeries() {
+  const result = await getFavoritesSave('TotalSavedSeries');
+  totalSavedSeries = result;
+}
+
+getTotalSavedMovies();
+getTotalSavedSeries();
 
 const Drawer = createDrawerNavigator();
 
@@ -32,7 +50,7 @@ const CustomDrawer = (props) => (
           marginBottom: 20,
         }}
       >
-        <Image source={logo} style={{ width: 80, height: 119 }} />
+        <Image source={logo} style={{ width: 100, height: 153 }} />
       </View>
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
@@ -65,7 +83,7 @@ const CustomDrawer = (props) => (
               fontSize: 20,
             }}
           >
-            0
+            {totalSavedMovies}
           </Text>
         </View>
         <View style={{ flex: 1 }}>
@@ -76,7 +94,7 @@ const CustomDrawer = (props) => (
               fontSize: 20,
             }}
           >
-            0
+            {totalSavedSeries}
           </Text>
         </View>
       </View>

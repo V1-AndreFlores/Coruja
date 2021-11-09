@@ -6,7 +6,7 @@ export const Container = styled.SafeAreaView`
   padding: 4px 0;
 `;
 
-export const SearchContainer = styled.View`
+export const ContainerSearch = styled.View`
   flex-direction: row;
   width: 100%;
   height: 50px;
@@ -25,7 +25,7 @@ export const Input = styled.TextInput`
   color: #fff;
 `;
 
-export const SearchButton = styled.TouchableOpacity`
+export const ButtonSearch = styled.TouchableOpacity`
   width: 15%;
   height: 50px;
   align-items: center;
@@ -50,9 +50,11 @@ export const Banner = styled.Image`
   margin: 0 14px;
 `;
 
-export const SliderMovie = styled.FlatList`
-  height: 250px;
-  padding: 0 14px;
+export const ContainerList = styled.View`
+  flex: 1;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  align-items: center;
 `;
 
 export const ContainerBannerAdMob = styled.View`

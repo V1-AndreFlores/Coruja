@@ -16,7 +16,7 @@ function Series() {
     <Container>
       <Header title="Sobre" />
       <ContainerLogo>
-        <Logo source={logo} style={{ width: 80, height: 119 }} />
+        <Logo source={logo} style={{ width: 100, height: 153 }} />
       </ContainerLogo>
       <Description>
         Com o crescimento dos streamings de filmes e séries no Brasil e também
