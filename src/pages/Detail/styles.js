@@ -25,11 +25,6 @@ export const HeaderButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const Banner = styled.Image`
-  width: 100%;
-  height: 350px;
-`;
-
 export const Title = styled.Text`
   color: #fff;
   font-size: 22px;

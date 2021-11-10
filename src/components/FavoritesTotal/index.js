@@ -30,7 +30,7 @@ function FavoritesTotal() {
         getTotalSavedMovies();
         getTotalSavedSeries();
         goDown();
-      }, 5000);
+      }, 1000);
     }
   }
 

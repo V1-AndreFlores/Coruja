@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Image, Dimensions } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Stars from 'react-native-stars';
 import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
+import {
+  ImageHeaderScrollView,
+  TriggeringView,
+} from 'react-native-image-header-scroll-view';
 import api, { key } from '../../services/api';
 import {
   Container,
   Header,
   HeaderButton,
-  Banner,
   Title,
   ContentArea,
   Rate,
@@ -36,6 +39,9 @@ function Detail() {
   const [movie, setMovie] = useState({});
   const [favorite, setFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const MIN_HEIGHT = 110;
+  const MAX_HEIGHT = 400;
 
   useEffect(() => {
     let isActive = true;
@@ -96,84 +102,115 @@ function Detail() {
 
   return (
     <Container>
-      <Header>
-        <HeaderButton activeOpacity={0.7} onPress={() => navigation.goBack()}>
-          <Feather name="arrow-left" size={28} color="#fff" />
-        </HeaderButton>
-
-        <HeaderButton onPress={() => handleFavoriteMovie(movie)}>
-          {favorite ? (
-            <Ionicons name="ios-heart-sharp" size={28} color="#fff" />
-          ) : (
-            <Ionicons name="ios-heart-outline" size={28} color="#fff" />
-          )}
-        </HeaderButton>
-      </Header>
-
-      <Banner
-        resizeMethod="resize"
-        source={{
-          uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
-        }}
-      />
-
-      {route.params?.type === 'tv' ? (
-        <Title numberOfLines={2}>{movie.name}</Title>
-      ) : (
-        <Title numberOfLines={2}>{movie.title}</Title>
-      )}
-
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <ContentArea>
-          <Stars
-            default={movie.vote_average}
-            count={10}
-            half
-            starSize={20}
-            fullStar={<Ionicons name="md-star" size={24} color="#E7A74E" />}
-            emptyStar={
-              <Ionicons name="md-star-outline" size={24} color="#E7A74E" />
-            }
-            halfStar={
-              <Ionicons name="md-star-half" size={24} color="#E7A74E" />
-            }
-            disable
+      <ImageHeaderScrollView
+        maxHeight={MAX_HEIGHT}
+        minHeight={MIN_HEIGHT}
+        maxOverlayOpacity={0.9}
+        minOverlayOpacity={0.3}
+        fadeOutForeground
+        renderHeader={() => (
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`,
+            }}
+            style={{
+              height: MAX_HEIGHT,
+              width: Dimensions.get('window').width,
+              // alignSelf: 'stretch',
+              // resizeMode: 'cover',
+            }}
           />
-          <Rate>{movie.vote_average}/10</Rate>
-        </ContentArea>
+        )}
+        renderFixedForeground={() => (
+          <Header>
+            <HeaderButton
+              activeOpacity={0.7}
+              onPress={() => navigation.goBack()}
+            >
+              <Feather name="arrow-left" size={28} color="#fff" />
+            </HeaderButton>
 
-        <ListGenres
-          data={movie?.genres}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => <Genres data={item} />}
-        />
+            <HeaderButton onPress={() => handleFavoriteMovie(movie)}>
+              {favorite ? (
+                <Ionicons name="ios-heart-sharp" size={28} color="#fff" />
+              ) : (
+                <Ionicons name="ios-heart-outline" size={28} color="#fff" />
+              )}
+            </HeaderButton>
+          </Header>
+        )}
+      >
+        <TriggeringView
+          style={{
+            backgroundColor: '#151515',
+          }}
+          onHide={() => this.navTitleView.fadeInUp(300)}
+          onDisplay={() => this.navTitleView.fadeOut(100)}
+        >
+          {route.params?.type === 'tv' ? (
+            <Title numberOfLines={2}>{movie.name}</Title>
+          ) : (
+            <Title numberOfLines={2}>{movie.title}</Title>
+          )}
+        </TriggeringView>
 
-        {route.params?.type === 'tv' ? (
-          <SubTitle>
-            {movie?.number_of_seasons} Temporada
-            {movie?.number_of_seasons > 1 ? 's' : ''}
-          </SubTitle>
-        ) : null}
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#151515',
+          }}
+        >
+          <ContentArea>
+            <Stars
+              default={movie.vote_average}
+              count={10}
+              half
+              starSize={20}
+              fullStar={<Ionicons name="md-star" size={24} color="#E7A74E" />}
+              emptyStar={
+                <Ionicons name="md-star-outline" size={24} color="#E7A74E" />
+              }
+              halfStar={
+                <Ionicons name="md-star-half" size={24} color="#E7A74E" />
+              }
+              disable
+            />
+            <Rate>{movie.vote_average}/10</Rate>
+          </ContentArea>
 
-        {route.params?.type === 'tv' ? (
-          <ListNetworks
-            data={movie?.networks}
+          <ListGenres
+            data={movie?.genres}
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => <Networks data={item} />}
+            renderItem={({ item }) => <Genres data={item} />}
           />
-        ) : null}
 
-        <Title>Descrição</Title>
-        <Description>
-          {movie?.overview?.length > 0
-            ? movie?.overview
-            : 'Nenhuma descrição disponível neste momento.'}
-        </Description>
-      </ScrollView>
+          {route.params?.type === 'tv' ? (
+            <SubTitle>
+              {movie?.number_of_seasons} Temporada
+              {movie?.number_of_seasons > 1 ? 's' : ''}
+            </SubTitle>
+          ) : null}
+
+          {route.params?.type === 'tv' ? (
+            <ListNetworks
+              data={movie?.networks}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => String(item.id)}
+              renderItem={({ item }) => <Networks data={item} />}
+            />
+          ) : null}
+
+          <Title>Descrição</Title>
+          <Description>
+            {movie?.overview?.length > 0
+              ? movie?.overview
+              : 'Nenhuma descrição disponível neste momento.'}
+          </Description>
+        </View>
+      </ImageHeaderScrollView>
 
       <ContainerBannerAdMob>
         <AdMobBanner
