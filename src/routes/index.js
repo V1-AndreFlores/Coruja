@@ -8,10 +8,11 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import logo from '../assets/logo.png';
-import Series from '../pages/Series';
-import Favorites from '../pages/Favorites';
+// import Series from '../pages/Series';
+import StackRoutesMovies from './stackRoutesMovies';
+import StackRoutesSeries from './stackRoutesSeries';
+import StackRoutesFavorites from './stackRoutesFavorites';
 import About from '../pages/About';
-import StackRoutes from './stackRoutes';
 import FavoritesTotal from '../components/FavoritesTotal';
 
 function Routes() {
@@ -49,8 +50,8 @@ function Routes() {
       }}
     >
       <Drawer.Screen
-        name="StackRoutes"
-        component={StackRoutes}
+        name="StackRoutesMovies"
+        component={StackRoutesMovies}
         options={{
           title: 'Filmes',
           drawerIcon: ({ focused, size, color }) => (
@@ -63,8 +64,8 @@ function Routes() {
         }}
       />
       <Drawer.Screen
-        name="Series"
-        component={Series}
+        name="StackRoutesSeries"
+        component={StackRoutesSeries}
         options={{
           title: 'Séries',
           drawerIcon: ({ focused, size, color }) => (
@@ -77,8 +78,8 @@ function Routes() {
         }}
       />
       <Drawer.Screen
-        name="Favorites"
-        component={Favorites}
+        name="StackRoutesFavorites"
+        component={StackRoutesFavorites}
         options={{
           title: 'Favoritos',
           drawerIcon: ({ focused, size, color }) => (

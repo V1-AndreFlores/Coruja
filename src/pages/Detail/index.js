@@ -186,6 +186,12 @@ function Detail() {
             renderItem={({ item }) => <Genres data={item} />}
           />
 
+          {route.params?.type === 'tv' ? null : (
+            <SubTitle>
+              {movie?.runtime > 0 ? `Duração de ${movie?.runtime} minutos` : ''}
+            </SubTitle>
+          )}
+
           {route.params?.type === 'tv' ? (
             <SubTitle>
               {movie?.number_of_seasons} Temporada

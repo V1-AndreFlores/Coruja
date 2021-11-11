@@ -1,18 +1,18 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Movies from '../pages/Movies';
+import Series from '../pages/Series';
 import Detail from '../pages/Detail';
 import Search from '../pages/Search';
 
 const Stack = createNativeStackNavigator();
 
-function StackRoutes() {
+function StackRoutesSeries() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Movies"
-        component={Movies}
+        name="Series"
+        component={Series}
         options={{
           headerShown: false,
         }}
@@ -45,4 +45,4 @@ function StackRoutes() {
   );
 }
 
-export default StackRoutes;
+export default StackRoutesSeries;
