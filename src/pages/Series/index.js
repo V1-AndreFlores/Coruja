@@ -21,30 +21,35 @@ function Series() {
   const [popularSeries, setPopularSeries] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    let isActive = true;
-    const ac = new AbortController();
+  let isActive = true;
+  async function getSeries() {
+    const [popularData] = await Promise.all([
+      api.get('/tv/popular', {
+        params: {
+          api_key: key,
+          language: 'pt-BR',
+          page: pageNumber,
+        },
+      }),
+    ]);
 
-    async function getSeries() {
-      const [popularData] = await Promise.all([
-        api.get('/tv/popular', {
-          params: {
-            api_key: key,
-            language: 'pt-BR',
-            page: 1,
-          },
-        }),
-      ]);
-
-      if (isActive) {
-        setPopularSeries(popularData.data.results);
-        setLoading(false);
-      }
+    if (isActive) {
+      setPopularSeries((item) => item.concat(popularData.data.results));
+      setLoading(false);
     }
+  }
 
+  async function updateList() {
+    setPageNumber(pageNumber + 1);
     getSeries();
+  }
+
+  useEffect(() => {
+    const ac = new AbortController();
+    updateList();
 
     return () => {
       isActive = false;
@@ -78,7 +83,6 @@ function Series() {
       mumberOfElementsLastRow !== numColumns &&
       mumberOfElementsLastRow !== 0
     ) {
-      data.push({ id: `blank-${mumberOfElementsLastRow}`, empty: true });
       mumberOfElementsLastRow += 1;
     }
 
@@ -116,6 +120,8 @@ function Series() {
             />
           )}
           keyExtractor={(item) => String(item.id)}
+          onEndReachedThreshold={0.7}
+          onEndReached={() => updateList()}
         />
       </ContainerList>
 
