@@ -4,7 +4,7 @@ import { Container, Name } from './styles';
 function Networks({ data }) {
   return (
     <Container>
-      <Name>{data.name}</Name>
+      <Name>{data?.name ?? data}</Name>
     </Container>
   );
 }

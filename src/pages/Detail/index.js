@@ -9,7 +9,9 @@ import {
   ImageHeaderScrollView,
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
-import api, { key } from '../../services/api';
+import { FlatList } from 'react-native-gesture-handler';
+import apiTheMovieDB, { keyTheMovieDB } from '../../services/apiTheMovieDB';
+import apiRapid, { keyRapid } from '../../services/apiRapid';
 import {
   Container,
   Header,
@@ -25,6 +27,9 @@ import {
 } from './styles';
 import Genres from '../../components/Genres';
 import Networks from '../../components/Networks';
+import Cast from '../../components/Cast';
+import Significants from '../../components/Significants';
+
 import {
   saveMovie,
   hasMovie,
@@ -36,7 +41,8 @@ function Detail() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const [movie, setMovie] = useState({});
+  const [movieTMDB, setMovieTMDB] = useState({});
+  const [movieRapid, setMovieRapid] = useState({});
   const [favorite, setFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -46,11 +52,40 @@ function Detail() {
   useEffect(() => {
     let isActive = true;
 
-    async function getMovie() {
-      const response = await api
+    async function getRapid() {
+      let isResponseError = false;
+
+      const response = await apiRapid
+        .get('', {
+          params: {
+            country: 'br',
+            tmdb_id: `${route.params?.type}/${route.params?.id}`,
+            output_language: 'en',
+          },
+          headers: {
+            'x-rapidapi-host': 'streaming-availability.p.rapidapi.com',
+            'x-rapidapi-key': keyRapid,
+          },
+        })
+        .catch((err) => {
+          isResponseError = true;
+          // console.log(err);
+        });
+
+      if (isActive) {
+        if (!isResponseError) {
+          setMovieRapid(response.data);
+        }
+
+        setLoading(false);
+      }
+    }
+
+    async function getTMDB() {
+      const response = await apiTheMovieDB
         .get(`/${route.params?.type}/${route.params?.id}`, {
           params: {
-            api_key: key,
+            api_key: keyTheMovieDB,
             language: 'pt-BR',
           },
         })
@@ -59,17 +94,17 @@ function Detail() {
         });
 
       if (isActive) {
-        setMovie(response.data);
+        setMovieTMDB(response.data);
 
         const isFavorite = await hasMovie(response.data);
         setFavorite(isFavorite);
 
-        setLoading(false);
+        getRapid();
       }
     }
 
     if (isActive) {
-      getMovie();
+      getTMDB();
     }
 
     return () => {
@@ -77,16 +112,16 @@ function Detail() {
     };
   }, []);
 
-  async function handleFavoriteMovie(movie) {
+  async function handleFavoriteMovie(movieTMDB) {
     const key =
       route.params?.type === 'tv' ? 'TotalSavedSeries' : 'TotalSavedMovies';
 
     if (favorite) {
-      await deleteMovie(movie.id);
+      await deleteMovie(movieTMDB.id);
       await saveFavorites(key, -1);
       setFavorite(false);
     } else {
-      await saveMovie('@coruja', movie);
+      await saveMovie('@coruja', movieTMDB);
       await saveFavorites(key, 1);
       setFavorite(true);
     }
@@ -100,6 +135,36 @@ function Detail() {
     );
   }
 
+  const streamings = JSON.stringify(movieRapid?.streamingInfo);
+
+  const streaming = ['apple', 'disney', 'hbo', 'netflix', 'prime'];
+
+  const newStreaming = [];
+
+  for (let i = 0; i < streaming.length; i++) {
+    if (streamings != null && streamings.indexOf(streaming[i]) !== -1) {
+      newStreaming.push(getStreamingName(streaming[i]));
+    }
+  }
+
+  function getStreamingName(value) {
+    if (value === 'apple') {
+      return 'Apple TV';
+    }
+    if (value === 'disney') {
+      return 'Disney+';
+    }
+    if (value === 'hbo') {
+      return 'HBO';
+    }
+    if (value === 'netflix') {
+      return 'Netflix';
+    }
+    if (value === 'prime') {
+      return 'Prime Video';
+    }
+  }
+
   return (
     <Container>
       <ImageHeaderScrollView
@@ -111,13 +176,13 @@ function Detail() {
         renderHeader={() => (
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`,
+              uri: `https://image.tmdb.org/t/p/original/${movieTMDB.backdrop_path}`,
             }}
             style={{
               height: MAX_HEIGHT,
               width: Dimensions.get('window').width,
-              // alignSelf: 'stretch',
-              // resizeMode: 'cover',
+              alignSelf: 'stretch',
+              resizeMode: 'cover',
             }}
           />
         )}
@@ -130,7 +195,7 @@ function Detail() {
               <Feather name="arrow-left" size={28} color="#fff" />
             </HeaderButton>
 
-            <HeaderButton onPress={() => handleFavoriteMovie(movie)}>
+            <HeaderButton onPress={() => handleFavoriteMovie(movieTMDB)}>
               {favorite ? (
                 <Ionicons name="ios-heart-sharp" size={28} color="#fff" />
               ) : (
@@ -148,9 +213,9 @@ function Detail() {
           onDisplay={() => this.navTitleView.fadeOut(100)}
         >
           {route.params?.type === 'tv' ? (
-            <Title numberOfLines={2}>{movie.name}</Title>
+            <Title numberOfLines={2}>{movieTMDB.name}</Title>
           ) : (
-            <Title numberOfLines={2}>{movie.title}</Title>
+            <Title numberOfLines={2}>{movieTMDB.title}</Title>
           )}
         </TriggeringView>
 
@@ -162,7 +227,7 @@ function Detail() {
         >
           <ContentArea>
             <Stars
-              default={movie.vote_average}
+              default={movieTMDB.vote_average}
               count={10}
               half
               starSize={20}
@@ -175,33 +240,44 @@ function Detail() {
               }
               disable
             />
-            <Rate>{movie.vote_average}/10</Rate>
+            <Rate>{movieTMDB.vote_average}/10</Rate>
           </ContentArea>
 
           <ListGenres
-            data={movie?.genres}
+            data={movieTMDB?.genres}
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => <Genres data={item} />}
           />
 
-          {route.params?.type === 'tv' ? null : (
-            <SubTitle>
-              {movie?.runtime > 0 ? `Duração de ${movie?.runtime} minutos` : ''}
-            </SubTitle>
-          )}
+          {movieRapid?.age > 0 ? (
+            <SubTitle>Classificação {movieRapid?.age}</SubTitle>
+          ) : null}
 
-          {route.params?.type === 'tv' ? (
-            <SubTitle>
-              {movie?.number_of_seasons} Temporada
-              {movie?.number_of_seasons > 1 ? 's' : ''}
-            </SubTitle>
+          {route.params?.type === 'tv' ? null : movieTMDB?.runtime > 0 ? (
+            <SubTitle>Duração {movieTMDB?.runtime} minutos</SubTitle>
           ) : null}
 
           {route.params?.type === 'tv' ? (
+            <SubTitle>
+              {movieTMDB?.number_of_seasons} Temporada
+              {movieTMDB?.number_of_seasons > 1 ? 's' : ''}
+            </SubTitle>
+          ) : null}
+
+          {newStreaming.length > 0 ? (
             <ListNetworks
-              data={movie?.networks}
+              data={newStreaming}
+              // data={movieRapid?.streamingInfo}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => String(item.tmdbID)}
+              renderItem={({ item }) => <Networks data={item} />}
+            />
+          ) : route.params?.type === 'tv' ? (
+            <ListNetworks
+              data={movieTMDB?.networks}
               horizontal
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => String(item.id)}
@@ -211,10 +287,36 @@ function Detail() {
 
           <Title>Descrição</Title>
           <Description>
-            {movie?.overview?.length > 0
-              ? movie?.overview
+            {movieTMDB?.overview?.length > 0
+              ? movieTMDB?.overview
               : 'Nenhuma descrição disponível neste momento.'}
           </Description>
+
+          {movieRapid?.cast > 0 ? (
+            <View>
+              <Title>Elenco</Title>
+              <FlatList
+                data={movieRapid?.cast}
+                vertical
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => String(item)}
+                renderItem={({ item }) => <Cast data={item} />}
+              />
+            </View>
+          ) : null}
+
+          {movieRapid?.significants > 0 ? (
+            <View>
+              <Title>Equipe Técnica</Title>
+              <FlatList
+                data={movieRapid?.significants}
+                vertical
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => String(item)}
+                renderItem={({ item }) => <Significants data={item} />}
+              />
+            </View>
+          ) : null}
         </View>
       </ImageHeaderScrollView>
 

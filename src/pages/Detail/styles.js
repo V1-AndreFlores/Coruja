@@ -72,7 +72,7 @@ export const ListNetworks = styled.FlatList`
 export const Description = styled.Text`
   padding-left: 14px;
   padding-right: 14px;
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   color: #fff;
   line-height: 20px;
   text-align: justify;

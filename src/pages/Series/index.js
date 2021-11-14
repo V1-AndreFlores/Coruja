@@ -15,7 +15,7 @@ import {
 } from './styles';
 import Header from '../../components/Header';
 import SliderItem from '../../components/SliderItem';
-import api, { key } from '../../services/api';
+import apiTheMovieDB, { keyTheMovieDB } from '../../services/apiTheMovieDB';
 
 function Series() {
   const [popularSeries, setPopularSeries] = useState([]);
@@ -27,9 +27,9 @@ function Series() {
   let isActive = true;
   async function getSeries() {
     const [popularData] = await Promise.all([
-      api.get('/tv/popular', {
+      apiTheMovieDB.get('/tv/popular', {
         params: {
-          api_key: key,
+          api_key: keyTheMovieDB,
           language: 'pt-BR',
           page: pageNumber,
         },
