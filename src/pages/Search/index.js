@@ -15,6 +15,7 @@ function Search() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const ac = new AbortController();
     let isActive = true;
 
     async function getSearchMovie() {
@@ -42,6 +43,7 @@ function Search() {
 
     return () => {
       isActive = false;
+      ac.abort();
     };
   }, []);
 

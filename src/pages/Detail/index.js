@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator, Image, Dimensions } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Dimensions,
+  SafeAreaView,
+} from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Stars from 'react-native-stars';
@@ -9,7 +14,7 @@ import {
   ImageHeaderScrollView,
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
-import { FlatList } from 'react-native-gesture-handler';
+
 import apiTheMovieDB, { keyTheMovieDB } from '../../services/apiTheMovieDB';
 import apiRapid, { keyRapid } from '../../services/apiRapid';
 import {
@@ -29,7 +34,6 @@ import Genres from '../../components/Genres';
 import Networks from '../../components/Networks';
 import Cast from '../../components/Cast';
 import Significants from '../../components/Significants';
-
 import {
   saveMovie,
   hasMovie,
@@ -50,6 +54,7 @@ function Detail() {
   const MAX_HEIGHT = 400;
 
   useEffect(() => {
+    const ac = new AbortController();
     let isActive = true;
 
     async function getRapid() {
@@ -109,6 +114,7 @@ function Detail() {
 
     return () => {
       isActive = false;
+      ac.abort();
     };
   }, []);
 
@@ -137,7 +143,19 @@ function Detail() {
 
   const streamings = JSON.stringify(movieRapid?.streamingInfo);
 
-  const streaming = ['apple', 'disney', 'hbo', 'netflix', 'prime'];
+  const streaming = [
+    'apple',
+    'disney',
+    'hbo',
+    'netflix',
+    'prime',
+    'paramount',
+    'hulu',
+    'mubi',
+    'peacock',
+    'showtime',
+    'starz',
+  ];
 
   const newStreaming = [];
 
@@ -162,6 +180,24 @@ function Detail() {
     }
     if (value === 'prime') {
       return 'Prime Video';
+    }
+    if (value === 'paramount') {
+      return 'Paramount+';
+    }
+    if (value === 'hulu') {
+      return 'Hulu';
+    }
+    if (value === 'mubi') {
+      return 'Mubi';
+    }
+    if (value === 'peacock') {
+      return 'Peacock';
+    }
+    if (value === 'showtime') {
+      return 'Showtime';
+    }
+    if (value === 'starz') {
+      return 'Starz';
     }
   }
 
@@ -219,10 +255,11 @@ function Detail() {
           )}
         </TriggeringView>
 
-        <View
+        <SafeAreaView
           style={{
             flex: 1,
             backgroundColor: '#151515',
+            paddingBottom: 50,
           }}
         >
           <ContentArea>
@@ -251,6 +288,10 @@ function Detail() {
             renderItem={({ item }) => <Genres data={item} />}
           />
 
+          {movieRapid?.year > 0 ? (
+            <SubTitle>Ano {movieRapid?.year}</SubTitle>
+          ) : null}
+
           {movieRapid?.age > 0 ? (
             <SubTitle>Classificação {movieRapid?.age}</SubTitle>
           ) : null}
@@ -269,7 +310,6 @@ function Detail() {
           {newStreaming.length > 0 ? (
             <ListNetworks
               data={newStreaming}
-              // data={movieRapid?.streamingInfo}
               horizontal
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => String(item.tmdbID)}
@@ -292,32 +332,24 @@ function Detail() {
               : 'Nenhuma descrição disponível neste momento.'}
           </Description>
 
-          {movieRapid?.cast > 0 ? (
-            <View>
-              <Title>Elenco</Title>
-              <FlatList
-                data={movieRapid?.cast}
-                vertical
-                showsVerticalScrollIndicator={false}
-                keyExtractor={(item) => String(item)}
-                renderItem={({ item }) => <Cast data={item} />}
-              />
-            </View>
-          ) : null}
+          <Title>Elenco</Title>
+          {movieRapid != null && movieRapid?.cast?.length > 0 ? (
+            movieRapid?.cast?.map((item) => <Cast data={item} />)
+          ) : (
+            <Description>Nenhum elenco disponível neste momento.</Description>
+          )}
 
-          {movieRapid?.significants > 0 ? (
-            <View>
-              <Title>Equipe Técnica</Title>
-              <FlatList
-                data={movieRapid?.significants}
-                vertical
-                showsVerticalScrollIndicator={false}
-                keyExtractor={(item) => String(item)}
-                renderItem={({ item }) => <Significants data={item} />}
-              />
-            </View>
-          ) : null}
-        </View>
+          <Title>Diretor(a)</Title>
+          {movieRapid != null && movieRapid?.significants?.length > 0 ? (
+            movieRapid?.significants?.map((item) => (
+              <Significants data={item} />
+            ))
+          ) : (
+            <Description>
+              Nenhuma diretor(a) disponível neste momento.
+            </Description>
+          )}
+        </SafeAreaView>
       </ImageHeaderScrollView>
 
       <ContainerBannerAdMob>
