@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -13,6 +13,7 @@ import {
   ContainerList,
   ContainerBannerAdMob,
 } from './styles';
+import Loading from '../../components/Loading';
 import Header from '../../components/Header';
 import SliderItem from '../../components/SliderItem';
 import apiTheMovieDB, { keyTheMovieDB } from '../../services/apiTheMovieDB';
@@ -68,11 +69,7 @@ function Movies() {
   }
 
   if (loading) {
-    return (
-      <Container>
-        <ActivityIndicator size="large" color="#fff" />
-      </Container>
-    );
+    return <Loading />;
   }
 
   const formatData = (data, numColumns) => {

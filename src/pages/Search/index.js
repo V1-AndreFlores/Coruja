@@ -3,6 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
 import { Container, ListMovies, ContainerBannerAdMob } from './styles';
+import Loading from '../../components/Loading';
 import SearchItem from '../../components/SearchItem';
 import EmptySetCustomer from '../../components/EmptySetCustomer';
 import apiTheMovieDB, { keyTheMovieDB } from '../../services/apiTheMovieDB';
@@ -52,7 +53,7 @@ function Search() {
   }
 
   if (loading) {
-    return <Container />;
+    return <Loading />;
   }
 
   return (

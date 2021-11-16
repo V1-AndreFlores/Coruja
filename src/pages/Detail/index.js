@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  Dimensions,
-  SafeAreaView,
-} from 'react-native';
+import { Image, Dimensions, SafeAreaView } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Stars from 'react-native-stars';
@@ -30,6 +25,7 @@ import {
   Description,
   ContainerBannerAdMob,
 } from './styles';
+import Loading from '../../components/Loading';
 import Genres from '../../components/Genres';
 import Networks from '../../components/Networks';
 import Cast from '../../components/Cast';
@@ -134,11 +130,7 @@ function Detail() {
   }
 
   if (loading) {
-    return (
-      <Container>
-        <ActivityIndicator size="large" color="#fff" />
-      </Container>
-    );
+    return <Loading />;
   }
 
   const streamings = JSON.stringify(movieRapid?.streamingInfo);
@@ -212,7 +204,9 @@ function Detail() {
         renderHeader={() => (
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/original/${movieTMDB.backdrop_path}`,
+              uri: `https://image.tmdb.org/t/p/original/${
+                movieTMDB?.backdrop_path ?? movieTMDB?.poster_path
+              }`,
             }}
             style={{
               height: MAX_HEIGHT,

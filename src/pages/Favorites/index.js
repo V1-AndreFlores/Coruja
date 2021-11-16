@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, FlatList } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { FlatList } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
 import { Container, ContainerList, ContainerBannerAdMob } from './styles';
+import Loading from '../../components/Loading';
 import Header from '../../components/Header';
 import SliderItem from '../../components/SliderItem';
 
@@ -46,11 +46,7 @@ function Favorites() {
   }
 
   if (loading) {
-    return (
-      <Container>
-        <ActivityIndicator size="large" color="#fff" />
-      </Container>
-    );
+    return <Loading />;
   }
 
   const formatData = (data, numColumns) => {

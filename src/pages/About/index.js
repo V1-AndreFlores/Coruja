@@ -28,6 +28,11 @@ function Series() {
         vezes me encontrei procurando um filme ou seriado especifico em todos os
         streamings que tenho assinatura para descobrir que ele não constava.
       </Description>
+      <Description>
+        Nesta primeira versão é possível encontramos filmes e séries nos
+        seguintes streamings: Apple TV, Disney+, HBO, Netflix, Paramount+, Prime
+        Video, entre outros.
+      </Description>
 
       <ContainerBannerAdMob>
         <AdMobBanner
