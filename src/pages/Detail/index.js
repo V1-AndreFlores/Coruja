@@ -17,10 +17,11 @@ import {
   Header,
   HeaderButton,
   Title,
+  SubTitle,
   ContentArea,
   Rate,
   ListGenres,
-  SubTitle,
+  Label,
   ListNetworks,
   Description,
   ContainerBannerAdMob,
@@ -282,23 +283,21 @@ function Detail() {
             renderItem={({ item }) => <Genres data={item} />}
           />
 
-          {movieRapid?.year > 0 ? (
-            <SubTitle>Ano {movieRapid?.year}</SubTitle>
-          ) : null}
+          {movieRapid?.year > 0 ? <Label>Ano {movieRapid?.year}</Label> : null}
 
           {movieRapid?.age > 0 ? (
-            <SubTitle>Classificação {movieRapid?.age}</SubTitle>
+            <Label>Classificação {movieRapid?.age}</Label>
           ) : null}
 
           {route.params?.type === 'tv' ? null : movieTMDB?.runtime > 0 ? (
-            <SubTitle>Duração {movieTMDB?.runtime} minutos</SubTitle>
+            <Label>Duração {movieTMDB?.runtime} minutos</Label>
           ) : null}
 
           {route.params?.type === 'tv' ? (
-            <SubTitle>
+            <Label>
               {movieTMDB?.number_of_seasons} Temporada
               {movieTMDB?.number_of_seasons > 1 ? 's' : ''}
-            </SubTitle>
+            </Label>
           ) : null}
 
           {newStreaming.length > 0 ? (
@@ -319,24 +318,26 @@ function Detail() {
             />
           ) : null}
 
-          <Title>Descrição</Title>
+          <SubTitle>Descrição</SubTitle>
           <Description>
             {movieTMDB?.overview?.length > 0
               ? movieTMDB?.overview
               : 'Nenhuma descrição disponível neste momento.'}
           </Description>
 
-          <Title>Elenco</Title>
+          <SubTitle>Elenco</SubTitle>
           {movieRapid != null && movieRapid?.cast?.length > 0 ? (
-            movieRapid?.cast?.map((item) => <Cast data={item} />)
+            movieRapid?.cast?.map((item) => (
+              <Cast key={item.toString()} data={item} />
+            ))
           ) : (
             <Description>Nenhum elenco disponível neste momento.</Description>
           )}
 
-          <Title>Diretor(a)</Title>
+          <SubTitle>Diretor(a)</SubTitle>
           {movieRapid != null && movieRapid?.significants?.length > 0 ? (
             movieRapid?.significants?.map((item) => (
-              <Significants data={item} />
+              <Significants key={item.toString()} data={item} />
             ))
           ) : (
             <Description>

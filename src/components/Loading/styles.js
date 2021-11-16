@@ -7,6 +7,16 @@ export const ContainerLoading = styled.View`
   background-color: #151515;
 `;
 
+export const ContainerLogo = styled.View`
+  margin-bottom: 30px;
+  align-items: center;
+`;
+
+export const Logo = styled.Image`
+  width: 300px;
+  height: 300px;
+`;
+
 export const ContainerHorizontal = styled.View`
   flex-direction: column;
   justify-content: space-around;
@@ -15,7 +25,7 @@ export const ContainerHorizontal = styled.View`
 
 export const TitleLoading = styled.Text`
   color: #fff;
-  font-size: 14px;
-  padding-left: 25px;
-  padding-right: 25px;
+  text-align: center;
+  font-size: 18px;
+  padding: 25px;
 `;

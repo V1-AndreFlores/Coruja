@@ -54,6 +54,14 @@ export const Title = styled.Text`
   margin-top: 8px;
 `;
 
+export const SubTitle = styled.Text`
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 14px;
+  margin-top: 8px;
+`;
+
 export const ContentArea = styled.View`
   flex-direction: row;
   align-items: center;
@@ -74,7 +82,7 @@ export const ListGenres = styled.FlatList`
   min-height: 35px;
 `;
 
-export const SubTitle = styled.Text`
+export const Label = styled.Text`
   width: 92%;
   padding-left: 15px;
   color: #fff;
