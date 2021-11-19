@@ -15,12 +15,15 @@ function SliderItem({ type, favorite, data, navigatePage }) {
   }
   return (
     <Container activeOpacity={0.7} onPress={() => navigatePage(data)}>
-      <BannerItem
-        source={{
-          uri: `https://image.tmdb.org/t/p/original/${data.poster_path}`,
-        }}
-      />
-
+      {data.poster_path != null ? (
+        <BannerItem
+          source={{
+            uri: `https://image.tmdb.org/t/p/original${data.poster_path}`,
+          }}
+        />
+      ) : (
+        <BannerItem source={require('../../assets/semcartaz.png')} />
+      )}
       {type === 'tv' ? (
         <Title numberOfLines={3}>{data?.name}</Title>
       ) : (

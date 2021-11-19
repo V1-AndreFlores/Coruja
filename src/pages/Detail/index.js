@@ -202,21 +202,33 @@ function Detail() {
         maxOverlayOpacity={0.9}
         minOverlayOpacity={0.3}
         fadeOutForeground
-        renderHeader={() => (
-          <Image
-            source={{
-              uri: `https://image.tmdb.org/t/p/original/${
-                movieTMDB?.backdrop_path ?? movieTMDB?.poster_path
-              }`,
-            }}
-            style={{
-              height: MAX_HEIGHT,
-              width: Dimensions.get('window').width,
-              alignSelf: 'stretch',
-              resizeMode: 'cover',
-            }}
-          />
-        )}
+        renderHeader={() =>
+          movieTMDB?.backdrop_path != null || movieTMDB?.poster_path != null ? (
+            <Image
+              source={{
+                uri: `https://image.tmdb.org/t/p/original${
+                  movieTMDB?.backdrop_path ?? movieTMDB?.poster_path
+                }`,
+              }}
+              style={{
+                height: MAX_HEIGHT,
+                width: Dimensions.get('window').width,
+                alignSelf: 'stretch',
+                resizeMode: 'cover',
+              }}
+            />
+          ) : (
+            <Image
+              source={require('../../assets/semcartaz.png')}
+              style={{
+                height: MAX_HEIGHT,
+                width: Dimensions.get('window').width,
+                alignSelf: 'stretch',
+                resizeMode: 'cover',
+              }}
+            />
+          )
+        }
         renderFixedForeground={() => (
           <Header>
             <HeaderButton

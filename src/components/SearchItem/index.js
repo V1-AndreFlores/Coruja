@@ -18,13 +18,13 @@ function SearchItem({ type, data, navigatePage }) {
         <Banner
           resizeMethod="resize"
           source={{
-            uri: `https://image.tmdb.org/t/p/original/${data?.poster_path}`,
+            uri: `https://image.tmdb.org/t/p/original${data?.poster_path}`,
           }}
         />
       ) : (
         <Banner
           resizeMethod="resize"
-          source={require('../../assets/semfoto.png')}
+          source={require('../../assets/semposter.png')}
         />
       )}
 
