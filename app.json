@@ -2,7 +2,7 @@
   "expo": {
     "name": "Coruja",
     "slug": "Coruja",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -21,8 +21,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fff"
       },
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-5120029043237991~1927504852"
+      },
       "package": "br.app.andreflores.coruja",
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"

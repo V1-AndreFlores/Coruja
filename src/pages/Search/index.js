@@ -79,7 +79,7 @@ function Search() {
         <AdMobBanner
           bannerSize="fullBanner"
           adUnitID={ADMOB_ID} // Test ID, Replace with your-admob-unit-id
-          setTestDeviceIDAsync // true or false
+          setTestDeviceIDAsync={false} // true or false
           servePersonalizedAds // true or false
           onDidFailToReceiveAdWithError={(err) => console.log(err)}
         />
