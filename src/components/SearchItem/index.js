@@ -4,11 +4,6 @@ import { Container, Banner, Title, RateContainer, Rate } from './styles';
 
 function SearchItem({ type, data, navigatePage }) {
   function detailMovie() {
-    if (data.release_date === '') {
-      alert('Filme ainda sem data');
-      return;
-    }
-
     navigatePage(type, data);
   }
 

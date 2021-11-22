@@ -21,7 +21,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fff"
       },
-      "package": "br.app.andreflores.coruja"
+      "package": "br.app.andreflores.coruja",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
