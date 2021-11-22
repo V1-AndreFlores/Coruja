@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-
 import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
 import { Container, ContainerList, ContainerBannerAdMob } from './styles';

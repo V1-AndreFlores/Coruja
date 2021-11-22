@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
 import { AdMobBanner } from 'expo-ads-admob';
 import { ADMOB_ID } from '@env';
 import {

@@ -21,17 +21,25 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fff"
       },
+      "package": "br.app.andreflores.coruja",
+      "versionCode": 4,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-5120029043237991~1927504852"
-      },
-      "package": "br.app.andreflores.coruja",
-      "versionCode": 4
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "platforms": [
       "android"
+    ],
+    "plugins": [
+      [
+        "expo-ads-admob",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+        }
+      ]
     ]
   }
 }
