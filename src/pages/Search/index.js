@@ -75,6 +75,7 @@ function Search() {
         <EmptySetCustomer />
       )}
 
+      {/*
       <ContainerBannerAdMob>
         <AdMobBanner
           bannerSize="fullBanner"
@@ -84,6 +85,7 @@ function Search() {
           onDidFailToReceiveAdWithError={(err) => console.log(err)}
         />
       </ContainerBannerAdMob>
+      */}
     </Container>
   );
 }

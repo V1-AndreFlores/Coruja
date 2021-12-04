@@ -8,12 +8,12 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import logo from '../assets/logo.png';
-// import Series from '../pages/Series';
 import StackRoutesMovies from './stackRoutesMovies';
 import StackRoutesSeries from './stackRoutesSeries';
 import StackRoutesFavorites from './stackRoutesFavorites';
 import About from '../pages/About';
 import FavoritesTotal from '../components/FavoritesTotal';
+import Version from '../components/Version';
 
 function Routes() {
   const Drawer = createDrawerNavigator();
@@ -32,6 +32,7 @@ function Routes() {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <FavoritesTotal />
+      <Version />
     </View>
   );
 

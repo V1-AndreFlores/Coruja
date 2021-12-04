@@ -85,6 +85,7 @@ function Favorites() {
         />
       </ContainerList>
 
+      {/*
       <ContainerBannerAdMob>
         <AdMobBanner
           bannerSize="fullBanner"
@@ -94,6 +95,7 @@ function Favorites() {
           onDidFailToReceiveAdWithError={(err) => console.log(err)}
         />
       </ContainerBannerAdMob>
+      */}
     </Container>
   );
 }

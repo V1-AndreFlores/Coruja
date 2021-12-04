@@ -37,6 +37,8 @@ import {
   deleteMovie,
   saveFavorites,
 } from '../../utils/storage';
+import YouTube from '../../components/YouTube';
+import Seasons from '../../components/Seasons';
 
 function Detail() {
   const navigation = useNavigation();
@@ -356,9 +358,30 @@ function Detail() {
               Nenhuma diretor(a) disponível neste momento.
             </Description>
           )}
+
+          {route.params?.type === 'tv' ? (
+            <SubTitle>
+              Temporada
+              {movieTMDB?.number_of_seasons > 1 ? 's' : ''}
+            </SubTitle>
+          ) : null}
+
+          {movieTMDB != null && movieTMDB?.seasons?.length > 0
+            ? movieTMDB?.seasons?.map((item) => (
+                <Seasons key={item.id.toString()} data={item} />
+              ))
+            : null}
+
+          <SubTitle>Trailer</SubTitle>
+          {movieRapid != null && movieRapid?.video?.length > 0 ? (
+            <YouTube data={movieRapid?.video} />
+          ) : (
+            <Description>Nenhum vídeo disponível neste momento.</Description>
+          )}
         </SafeAreaView>
       </ImageHeaderScrollView>
 
+      {/*
       <ContainerBannerAdMob>
         <AdMobBanner
           bannerSize="fullBanner"
@@ -368,6 +391,7 @@ function Detail() {
           onDidFailToReceiveAdWithError={(err) => console.log(err)}
         />
       </ContainerBannerAdMob>
+      */}
     </Container>
   );
 }

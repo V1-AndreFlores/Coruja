@@ -120,15 +120,23 @@ function Movies() {
         />
       </ContainerList>
 
+      {/*
       <ContainerBannerAdMob>
         <AdMobBanner
           bannerSize="fullBanner"
           adUnitID={ADMOB_ID} // Test ID, Replace with your-admob-unit-id
           setTestDeviceIDAsync={false} // true or false
           servePersonalizedAds // true or false
-          onDidFailToReceiveAdWithError={(err) => console.log(err)}
+          onDidFailToReceiveAdWithError={(err) =>
+            console.log(`onDidFailToReceiveAdWithError: ${err}`)
+          }
+          onAdFailedToLoad={(msg) => console.log(`onAdFailedToLoad: ${msg}`)}
+          onAdMobDispatchAppEvent={(msg) =>
+            console.log(`onAdMobDispatchAppEvent: ${msg}`)
+          }
         />
       </ContainerBannerAdMob>
+       */}
     </Container>
   );
 }

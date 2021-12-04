@@ -2,7 +2,7 @@
   "expo": {
     "name": "Coruja",
     "slug": "Coruja",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#fff"
       },
       "package": "br.app.andreflores.coruja",
-      "versionCode": 4,
+      "versionCode": 5,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-5120029043237991~1927504852"
       }

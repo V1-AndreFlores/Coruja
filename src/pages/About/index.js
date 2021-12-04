@@ -34,7 +34,8 @@ function Series() {
         Video, entre outros.
       </Description>
 
-      <ContainerBannerAdMob>
+      {/*
+       <ContainerBannerAdMob>
         <AdMobBanner
           bannerSize="fullBanner"
           adUnitID={ADMOB_ID} // Test ID, Replace with your-admob-unit-id
@@ -43,6 +44,7 @@ function Series() {
           onDidFailToReceiveAdWithError={(err) => console.log(err)}
         />
       </ContainerBannerAdMob>
+       */}
     </Container>
   );
 }

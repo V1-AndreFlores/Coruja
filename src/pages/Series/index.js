@@ -120,6 +120,7 @@ function Series() {
         />
       </ContainerList>
 
+      {/*
       <ContainerBannerAdMob>
         <AdMobBanner
           bannerSize="fullBanner"
@@ -129,6 +130,7 @@ function Series() {
           onDidFailToReceiveAdWithError={(err) => console.log(err)}
         />
       </ContainerBannerAdMob>
+      */}
     </Container>
   );
 }
